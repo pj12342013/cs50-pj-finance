@@ -35,7 +35,6 @@ help50==3.0.3
 html5lib==1.1
 icdiff==1.9.1
 idna==2.10
-ikp3db==1.4.3
 importlib-metadata==3.1.0
 intervaltree==2.1.0
 isort==5.6.4
@@ -59,7 +58,6 @@ pandas==1.1.4
 pexpect==4.8.0
 Pillow==8.0.1
 plotly==4.13.0
-psycopg2==2.8.6
 ptyprocess==0.6.0
 pyasn1==0.4.8
 pycodestyle==2.6.0
