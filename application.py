@@ -323,7 +323,7 @@ def sell():
             db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans) VALUES(:u_id, :comp, :qty, :price, :total , 'SELL')", u_id=session['user_id'], comp=comp['symbol'], qty=number, price=comp['price'], total=total)
             db.execute("UPDATE users SET cash = :cash WHERE id = :u_id", u_id = session['user_id'], cash = new_bal)
             flash("Sold")
-            return redirect("/")
+            return (url_for("index")
     else:
         return render_template("sell.html", check_stock=check_stock)
 
