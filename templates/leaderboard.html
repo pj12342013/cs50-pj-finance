@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Leaderboard
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped" style="width:100%">
+    <h2>Leaderboard</h2>
+    <br>
+    <tr>
+       <th>Name</th>
+       <th>Amount</th>
+    </tr>
+    {% for a in ranks %}
+    <tr>
+       <td>{{ a["username"] }}</td>
+       <td>{{ a["cash"] }}</td>
+     </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}

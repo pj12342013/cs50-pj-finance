@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    show_quote
+{% endblock %}
+
+{% block main %}
+        <p>
+           A share of {{sym['name']}}({{sym['symbol']}}) costs USD {{sym['price']}} per share.
+        </p>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   History
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped" style="width:100%">
+    <tr>
+       <th>Symbol</th>
+       <th>Shares</th>
+       <th>Price</th>
+       <th>Value</th>
+       <th>Transacted</th>
+    </tr>
+    {%for a in data %}
+    <tr>
+        <td>{{ a['company'] }}</td>
+        <td>{{ a['quantity'] }}</td>
+        <td>{{ a['price'] | usd }}</td>
+        <td>{{ a['total'] | usd }}</td>
+        <td>{{ a['transacted'] }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

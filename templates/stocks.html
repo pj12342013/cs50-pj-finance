@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Popular
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped" style="width:100%">
+    <tr>
+       <th>Name</th>
+       <th>Symbol</th>
+       <th>Price</th>
+    </tr>
+    {% for a in stock_data %}
+    <tr>
+       <td>{{stock_data[a]["name"]}}</td>
+       <td>{{stock_data[a]["symbol"] }}</td>
+       <td>{{stock_data[a]["price"]| usd}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}

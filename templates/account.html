@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Account
+{% endblock %}
+
+{% block main %}
+    <form action="/account" method="post">
+        <button class="btn btn-primary" type="submit">Change Password</button>
+    </form>
+
+{% endblock %}
