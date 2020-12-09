@@ -27,13 +27,13 @@ def after_request(response):
 app.jinja_env.filters["usd"] = usd
 
 # Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
+#app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL("postgres://yntvzpgpplyend:e12081812c1aaed4883d503400c61edad92bd99f4e5946e86a2fa7f2c0093a33@ec2-50-19-247-157.compute-1.amazonaws.com:5432/dfoa6vk3hg6ddq")
 
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
@@ -164,11 +164,13 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            flash ("Must provide username")
+            return render_template("login.html")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            flash ("Must provide password")
+            return render_template("login.html")
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username",
@@ -176,7 +178,8 @@ def login():
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+            flash ("Invalid username and/or password")
+            return render_template("login.html")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
