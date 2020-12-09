@@ -193,7 +193,7 @@ def login():
         return redirect(url_for("index"))
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
+    elif request.method == "GET":
         return render_template("login.html")
 
 
