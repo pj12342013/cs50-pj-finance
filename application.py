@@ -33,7 +33,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("postgres://yntvzpgpplyend:e12081812c1aaed4883d503400c61edad92bd99f4e5946e86a2fa7f2c0093a33@ec2-50-19-247-157.compute-1.amazonaws.com:5432/dfoa6vk3hg6ddq")
+db = SQL("sqlite:///finance.db")
 
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
@@ -157,8 +157,6 @@ def change():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
-
-    # Forget any user_id
     session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
@@ -166,13 +164,11 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            flash("Must Provide Username")
-            return render_template("login.html")
+            return apology("must provide username", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            flash("Must Provide Password")
-            return render_template("login.html")
+            return apology("must provide password", 403)
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username",
@@ -180,8 +176,7 @@ def login():
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            flash("Invalid Username/Password")
-            return render_template("login.html")
+            return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
