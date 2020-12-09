@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -96,7 +96,7 @@ def buy():
                 update_cash = db.execute("UPDATE users SET cash = :funds WHERE id = :u_id", funds = funds, u_id = session['user_id'])
                 transaction = db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans) VALUES(:u_id, :comp, :qty, :price, :total, 'BUY')", u_id=session['user_id'], comp=sym['symbol'], qty=no_of_shares, price=sym['price'], total=total_price)
                 flash("Bought")
-                return redirect(url_for("index"))
+                return redirect("/")
 
     else:
         return render_template("buy.html", stock_data=stock_data)
@@ -151,7 +151,7 @@ def change():
         else:
             change_password = db.execute("UPDATE users SET hash=:passw WHERE id = :u_id", passw=pass_hash, u_id=session['user_id'])
             flash("password successfully changed")
-            return redirect(url_for("index"))
+            return redirect("/")
 
     else:
         return render_template("change.html")
@@ -190,7 +190,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect(url_for("index"))
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     elif request.method == "GET":
@@ -205,7 +205,7 @@ def logout():
     session.clear()
 
     # Redirect user to login form
-    return redirect(url_for("index"))
+    return redirect("/")
 
 @app.route("/stocks")
 @login_required
@@ -323,7 +323,7 @@ def sell():
             db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans) VALUES(:u_id, :comp, :qty, :price, :total , 'SELL')", u_id=session['user_id'], comp=comp['symbol'], qty=number, price=comp['price'], total=total)
             db.execute("UPDATE users SET cash = :cash WHERE id = :u_id", u_id = session['user_id'], cash = new_bal)
             flash("Sold")
-            return redirect(url_for("index"))
+            return redirect("/")
     else:
         return render_template("sell.html", check_stock=check_stock)
 
