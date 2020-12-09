@@ -98,8 +98,7 @@ def buy():
                 flash("Bought")
                 return redirect("/")
 
-    else:
-        return render_template("buy.html", stock_data=stock_data)
+    return render_template("buy.html", stock_data=stock_data)
 
 
 @app.route("/history")
@@ -120,8 +119,7 @@ def account():
 
         return render_template("change.html")
 
-    else:
-        return render_template("account.html")
+    return render_template("account.html")
 
 
 @app.route("/change", methods=["GET", "POST"])
@@ -153,8 +151,7 @@ def change():
             flash("password successfully changed")
             return redirect("/")
 
-    else:
-        return render_template("change.html")
+    return render_template("change.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -193,7 +190,7 @@ def login():
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
-    elif request.method == "GET":
+    else:
         return render_template("login.html")
 
 
@@ -238,8 +235,7 @@ def quote():
         else:
             return render_template("show_quote.html", sym=sym)
 
-    else:
-        return render_template("quote.html")
+    return render_template("quote.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -277,7 +273,7 @@ def register():
             rows = db.execute("INSERT INTO users(username, hash, cash) VALUES(:username, :pass_hash, 10000)",
             username=request.form.get("username"), pass_hash=pass_hash)
             flash("Successly Registered, please log in")
-            return render_template("login.html")
+            return redirect("/")
             # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("register.html")
@@ -324,8 +320,7 @@ def sell():
             db.execute("UPDATE users SET cash = :cash WHERE id = :u_id", u_id = session['user_id'], cash = new_bal)
             flash("Sold")
             return redirect("/")
-    else:
-        return render_template("sell.html", check_stock=check_stock)
+    return render_template("sell.html", check_stock=check_stock)
 
 
 @app.route("/leaderboard")
