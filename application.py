@@ -6,6 +6,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+import datetime
 
 from helpers import apology, login_required, lookup, usd
 
@@ -314,7 +315,7 @@ def sell():
             number = -(number)
             new_bal = balance + total
 
-            db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans) VALUES(:u_id, :comp, :qty, :price, :total , 'SELL')", u_id=session['user_id'], comp=comp['symbol'], qty=number, price=comp['price'], total=total)
+            db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans, transacted) VALUES(:u_id, :comp, :qty, :price, :total , 'SELL', :date)", u_id=session['user_id'], comp=comp['symbol'], qty=number, price=comp['price'], total=total, date=datetime.datetime.now())
             db.execute("UPDATE users SET cash = :cash WHERE id = :u_id", u_id = session['user_id'], cash = new_bal)
             flash("Sold")
             return redirect("/")
