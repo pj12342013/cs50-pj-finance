@@ -95,7 +95,7 @@ def buy():
             elif funds >= total_price:
                 funds -= total_price
                 update_cash = db.execute("UPDATE users SET cash = :funds WHERE id = :u_id", funds = funds, u_id = session['user_id'])
-                transaction = db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans) VALUES(:u_id, :comp, :qty, :price, :total, 'BUY')", u_id=session['user_id'], comp=sym['symbol'], qty=no_of_shares, price=sym['price'], total=total_price)
+                transaction = db.execute("INSERT INTO buylist(user_id, company, quantity, price, total, trans, transacted) VALUES(:u_id, :comp, :qty, :price, :total, 'BUY', :date)", u_id=session['user_id'], comp=sym['symbol'], qty=no_of_shares, price=sym['price'], total=total_price, date=datetime.datetime.now())
                 flash("Bought")
                 return redirect("/")
 
