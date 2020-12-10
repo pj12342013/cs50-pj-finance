@@ -106,7 +106,7 @@ def buy():
 def history():
     """Show history of transactions"""
 
-    data = db.execute("SELECT company, quantity, price, total, transacted FROM buylist WHERE user_id = :u_id", u_id = session['user_id'])
+    data = db.execute("SELECT company, quantity, price, total FROM buylist WHERE user_id = :u_id", u_id = session['user_id'])
 
     return render_template("history.html", data=data)
 
