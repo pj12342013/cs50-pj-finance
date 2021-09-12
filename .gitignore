@@ -1,1 +1,4 @@
 finance.db
+__pycache__
+finance_env
+flask_session
